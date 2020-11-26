@@ -9,7 +9,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 function createWindow () {
   const win = new BrowserWindow({
-    width: 800,
+    width: 500,
     height: 600,
     webPreferences: {
       nodeIntegration: true
@@ -46,7 +46,7 @@ function createWindow () {
   })
 
   win.loadFile('index.html')
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)
