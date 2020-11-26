@@ -1,6 +1,7 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, screen } = require('electron')
 const { electron } = require("electron");
 const { Menu, Tray } = require('electron')
+const { shell } = require('electron')
 
 const custon_icon = 'contents/imgs/icon.png'
 const custon_title= 'Elementos de Sistemas'
@@ -8,11 +9,18 @@ const custon_title= 'Elementos de Sistemas'
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 function createWindow () {
+
+  let display = screen.getPrimaryDisplay();
+  let width = display.bounds.width;
+
   const win = new BrowserWindow({
     width: 500,
     height: 600,
+    x: width - 550,
+    y: 50,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     },
     frame: false,
     icon: custon_icon,
@@ -36,6 +44,9 @@ function createWindow () {
       { label: 'Show App', click:  function(){
           win.show();
       } },
+      { label: 'Site', click:  function(){
+          shell.openExternal('https://insper.github.io/Z01.1/')
+      } },
       { label: 'Quit', click:  function(){
           app.quitting = true;
           app.quit()
@@ -46,7 +57,7 @@ function createWindow () {
   })
 
   win.loadFile('index.html')
-  //win.webContents.openDevTools()
+ // win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)

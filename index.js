@@ -1,15 +1,13 @@
-// note that the fs package does not exist on a normal browser
-const convert = require('xml-js');
-const fs = require("fs");
+const {remote} = require('electron');
+const { shell } = require('electron')
 
-//a dialog box module from electron
-const { dialog } = require('electron');
+document.getElementById('legal').onclick = function(){
+    var win = remote.getCurrentWindow();
+    win.hide()
+  }
 
-//document.getElementById('myButton').onclick = function(){
-//    // do stuff
-//    console.log("Oi!");
-//
-//    const xmlFile = fs.readFileSync('/home/corsi/teste.xml', 'utf8')
-//    const jsonData = JSON.parse(convert.xml2json(xmlFile, {compact: true, spaces: 2}));
-//
-//  }
+document.getElementById('mais').onclick = function(){
+    var win = remote.getCurrentWindow();
+    win.hide()
+    shell.openExternal('https://insper.github.io/Z01.1/')
+  }
