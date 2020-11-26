@@ -11,3 +11,4 @@ document.getElementById('mais').onclick = function(){
     win.hide()
     shell.openExternal('https://insper.github.io/Z01.1/')
   }
+

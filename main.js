@@ -20,7 +20,8 @@ function createWindow () {
     y: 50,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false
     },
     frame: false,
     icon: custon_icon,
@@ -42,10 +43,15 @@ function createWindow () {
     tray = new Tray(custon_icon)
     const contextMenu = Menu.buildFromTemplate([
       { label: 'Show App', click:  function(){
+          win.loadFile('index.html')
           win.show();
       } },
       { label: 'Site', click:  function(){
           shell.openExternal('https://insper.github.io/Z01.1/')
+      } },
+      { label: 'Config', click:  function(){
+        win.loadFile('config.html')
+        win.show();
       } },
       { label: 'Quit', click:  function(){
           app.quitting = true;
@@ -56,8 +62,8 @@ function createWindow () {
     tray.setContextMenu(contextMenu)
   })
 
-  win.loadFile('index.html')
- // win.webContents.openDevTools()
+  win.loadFile('config.html')
+  win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)

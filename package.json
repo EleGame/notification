@@ -9,6 +9,7 @@
         "electron": "^11.0.1"
     },
     "dependencies": {
+        "electron-json-config": "^1.5.3",
         "xml-js": "^1.6.11"
     }
 }
