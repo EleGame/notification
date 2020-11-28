@@ -9,7 +9,9 @@
         "electron": "^11.0.1"
     },
     "dependencies": {
+        "amqplib": "^0.6.0",
         "electron-json-config": "^1.5.3",
+        "js-beautify": "^1.9.1",
         "xml-js": "^1.6.11"
     }
 }
