@@ -1,4 +1,4 @@
-const { app, BrowserWindow, screen } = require('electron')
+const { app, BrowserWindow, screen, ipcMain } = require('electron')
 const { electron } = require("electron");
 const { Menu, Tray } = require('electron')
 const { shell } = require('electron')
@@ -6,9 +6,9 @@ const { shell } = require('electron')
 var amqp = require('amqplib/callback_api');
 const config = require('electron-json-config');
 
-
-const custon_icon = 'contents/imgs/icon.png'
-const custon_title= 'Elementos de Sistemas'
+const custon_icon = 'contents/imgs/icon.png';
+const custon_title = 'Elementos de Sistemas';
+const ampq_url = 'amqp://localhost';
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
@@ -68,9 +68,10 @@ function createWindow () {
   })
 
   win.loadFile('index.html')
-//  win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
-  queue('12', '134', win);
+  id = config.get('id');
+  queue(id[0], id[1], win);
 }
 
 app.whenReady().then(createWindow)
@@ -93,7 +94,7 @@ app.on('window-all-closed', () => {
 })
 
 function queue (groupId, userId, win) {
-  amqp.connect('amqp://localhost', function(error0, connection) {
+  amqp.connect(ampq_url, function(error0, connection) {
     if (error0) { throw error0; }
     connection.createChannel(function(error1, channel) {
       if (error1) { throw error1; }
@@ -108,9 +109,10 @@ function queue (groupId, userId, win) {
 
         channel.consume(q.queue, function(msg) {
           if (msg.content) {
-            console.log(" [x] %s", msg.content.toString());
-            win.loadFile('index.html')
-            win.show();
+            var url = msg.content.toString();
+            console.log("[x] %s", url);
+            win.webContents.send('rabbitmq', url);
+            //win.show()
           }
         }, { noAck: true });
       });

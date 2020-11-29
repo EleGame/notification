@@ -1,22 +1,28 @@
 const {remote, shell} = require('electron');
+const { ipcRenderer } = require('electron');
 
 var win = remote.getCurrentWindow();
-const app = require('electron').remote.app
 
 document.getElementById('legal').onclick = function(){
-    win.hide()
-  }
+  win.hide()
+}
 
 document.getElementById('mais').onclick = function(){
-    win.hide()
-    shell.openExternal('https://insper.github.io/Z01.1/')
-  }
+  win.hide()
+  shell.openExternal('https://insper.github.io/Z01.1/')
+}
 
-var progress = document.getElementsByClassName('progress-bar').item(0);
+ipcRenderer.on('rabbitmq', (event, data) => {
+  var webview = document.getElementById('msg')
+  webview.src = data
+  win.show()
+});
+
 var time = 0;
 var interval = setInterval(closeWindownTimeout, 100);
 
 function closeWindownTimeout () {
+  var progress = document.getElementsByClassName('progress-bar').item(0);
   if (time < 100) {
     time = time + 5;
     progress.style.width = time + "%"
@@ -25,4 +31,3 @@ function closeWindownTimeout () {
     setTimeout( function (){ win.hide(); }, 5000);
   }
 };
-
