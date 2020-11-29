@@ -25,7 +25,8 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      contextIsolation: false
+      contextIsolation: false,
+      webviewTag: true
     },
     frame: false,
     icon: custon_icon,
@@ -67,7 +68,7 @@ function createWindow () {
   })
 
   win.loadFile('index.html')
-  win.webContents.openDevTools()
+//  win.webContents.openDevTools()
 
   queue('12', '134', win);
 }
